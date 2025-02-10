@@ -8,11 +8,6 @@ resource "azurerm_kubernetes_cluster_node_pool" "fox-hipaa_k8s_pool" {
   min_count           = 1
   max_count           = 10
 
-#   node_labels = {
-#     role                                    = "internal"
-#     "kubernetes.azure.com/scalesetpriority" = "internal"
-#   }
-
   tags = {
     Environment = "dev"
   }

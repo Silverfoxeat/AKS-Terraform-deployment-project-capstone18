@@ -1,15 +1,15 @@
 
 # Managed Identity 
-resource "azurerm_user_assigned_identity" "fox-base1" {
-  name                = "fox-base"
+resource "azurerm_user_assigned_identity" "base1" {
+  name                = "base"
   location            = azurerm_resource_group.fox-hipaa_rsg.location
   resource_group_name = azurerm_resource_group.fox-hipaa_rsg.name
 }
 
-resource "azurerm_role_assignment" "fox-base2" {
+resource "azurerm_role_assignment" "base2" {
   scope                = azurerm_resource_group.fox-hipaa_rsg.id
   role_definition_name = "Network Contributor"
-  principal_id         = azurerm_user_assigned_identity.fox-base1.principal_id
+  principal_id         = azurerm_user_assigned_identity.base1.principal_id
 }
 
 # Azure kubenetent Cluster Block
@@ -52,7 +52,7 @@ resource "azurerm_kubernetes_cluster" "fox-hipaa_k8s" {
 
   identity {
     type         = "UserAssigned"
-    identity_ids = [azurerm_user_assigned_identity.fox-base1.id]
+    identity_ids = [azurerm_user_assigned_identity.base1.id]
   }
 
   tags = {
@@ -64,6 +64,6 @@ resource "azurerm_kubernetes_cluster" "fox-hipaa_k8s" {
   }
 
   depends_on = [
-    azurerm_role_assignment.fox-base2
+    azurerm_role_assignment.base2
   ]
 }
